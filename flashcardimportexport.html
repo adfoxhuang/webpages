@@ -1,0 +1,99 @@
+<html>
+<meta charset="utf-8">
+<body style="padding:8px; font-family:'微軟正黑體'; font-size: 24px;">
+<font style="font-size:40px;">「簡易單字卡」檔案匯入說明</font><br/>
+<br/>
+<span style="font-size: x-large;">(可以先把現有的單字卡匯出一次，打開看看檔案內容應該就知道怎麼做了，以下是詳細說明及注意事項)</span><br/>
+<br/>
+<span style="font-size: 28px;"><a href="#bookmark1">1.完整欄位匯入</a></span><br/>
+<span style="font-size: 28px;"><a href="#bookmark2">2.簡易欄位匯入</a></span><br/>
+<span style="font-size: 28px;"><a href="#bookmark3">3.亂碼問題</a></span><br/>
+<br/>
+<hr>
+<div id="bookmark1">
+</div>
+<span style="font-size: 32px;"><b>●完整欄位匯入</b></span><br/>
+<br/>
+<span >一張單字卡的完整內容共有7個欄位：</span><br/>
+<br/>
+<span >(1) 正面大標題、(2) 正面小標題、(3) 正面描述</span><br/>
+<span >(4) 反面大標題、(5) 反面小標題、(6) 反面描述</span><br/>
+<span >(7) 卡片標籤</span><br/>
+<br/>
+<span >在文字編輯器中把7個欄位用逗號分隔，打在同一行，就是一筆單字卡的匯入資料
+<br/>(多個標籤則用 # 分隔)：</span><br/>
+<br/>
+<span face="標楷體" style="color: red; font-size: 24px;"><b>大標題1,小標題1,描述1,大標題2,小標題2,描述2,標籤1#標籤2</b></span><br/>
+<br/>
+<span >匯入會是如下的結果：</span><br/>
+<br/>
+<div class="separator" style="clear: both; text-align: left;">
+<a href="https://2.bp.blogspot.com/-Bwl1KkTVHTQ/W8RT7o1ewKI/AAAAAAAAHDY/gxNQjZX2j_w26Om7yDesU9oMXRaUoUJxACLcBGAs/s1600/Screenshot_2018-10-15-16-38-36-787_org.adfoxhuang.simpleflashcardsmaker.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="945" data-original-width="720" height="640" src="https://2.bp.blogspot.com/-Bwl1KkTVHTQ/W8RT7o1ewKI/AAAAAAAAHDY/gxNQjZX2j_w26Om7yDesU9oMXRaUoUJxACLcBGAs/s640/Screenshot_2018-10-15-16-38-36-787_org.adfoxhuang.simpleflashcardsmaker.png" width="484" /></a></div>
+<br/>
+<div class="separator" style="clear: both; text-align: left;">
+<a href="https://3.bp.blogspot.com/-ofZr2Apj7n4/W8RUJQ8ftGI/AAAAAAAAHDg/A84rJTj26TgepE4M0xzZWfCHD5Rf3dkYwCLcBGAs/s1600/Screenshot_2018-10-15-16-38-25-856_org.adfoxhuang.simpleflashcardsmaker.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="918" data-original-width="720" height="640" src="https://3.bp.blogspot.com/-ofZr2Apj7n4/W8RUJQ8ftGI/AAAAAAAAHDg/A84rJTj26TgepE4M0xzZWfCHD5Rf3dkYwCLcBGAs/s640/Screenshot_2018-10-15-16-38-25-856_org.adfoxhuang.simpleflashcardsmaker.png" width="500" /></a></div>
+<br/>
+<br/><span >各個欄位的內容可以省略，但逗號要留著！</span><br/>
+<span face="標楷體" ><br/><b><span style="color: red;">大標題1,,,大標題2,小標題2,,&nbsp;</span></b>&nbsp; &nbsp; (O)</span><br/>
+<span face="標楷體" ><br/></span>
+<span face="標楷體" ><span face="標楷體" ><span style="color: red;"><b>大標題1,,,大標題2,小標題2</b></span>&nbsp; &nbsp; &nbsp; &nbsp;(X)</span></span><br/>
+<span face="標楷體" ><span face="標楷體" ><br/></span></span>
+<span >也就是當檔案裡一行文字出現 6 個逗號，便會進行完整欄位匯入。</span><br/>
+<br/>
+<hr>
+<div id="bookmark2"></div>
+<span style="font-size: 32px;"><b>●簡易欄位匯入</b></span><br/>
+<span ><br/>簡易欄位匯入只需要三個部分：兩個大標題與標籤：</span><br/>
+<br/>
+<span face="標楷體" style="color: red; font-size: 24px;"><b>大標題1,大標題2,標籤1#標籤2</b></span><br/>
+<br/>
+<span >匯入結果為：</span><br/>
+<br/>
+<div class="separator" style="clear: both; text-align: left;">
+<a href="https://4.bp.blogspot.com/-Y7SMGvXMmcw/W8RXm4xDoDI/AAAAAAAAHD0/_Cy6W8KK78MrfX8FNZTmZsPHiYqE2bQFACLcBGAs/s1600/Screenshot_20181015-170001.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="919" data-original-width="720" height="640" src="https://4.bp.blogspot.com/-Y7SMGvXMmcw/W8RXm4xDoDI/AAAAAAAAHD0/_Cy6W8KK78MrfX8FNZTmZsPHiYqE2bQFACLcBGAs/s640/Screenshot_20181015-170001.png" width="500" /></a></div>
+<br/>
+<div class="separator" style="clear: both; text-align: left;">
+<a href="https://3.bp.blogspot.com/-k3XNOJW0WG8/W8RXql43bXI/AAAAAAAAHD8/y5SqjvyF-YomfgGwemH0w1gLms6Te3ndACLcBGAs/s1600/Screenshot_20181015-170005.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="900" data-original-width="720" height="640" src="https://3.bp.blogspot.com/-k3XNOJW0WG8/W8RXql43bXI/AAAAAAAAHD8/y5SqjvyF-YomfgGwemH0w1gLms6Te3ndACLcBGAs/s640/Screenshot_20181015-170005.png" width="512" /></a></div>
+<br/>
+<br/>
+<span >當檔案裡一行文字出現 2 個逗號，便會進行簡易欄位匯入。</span><br/>
+<br/>
+<hr>
+<div id="bookmark3">
+</div>
+<span style="font-size: 32px;"><b>●亂碼問題</b></span><br/>
+<br/>
+<span >App 所匯出的檔案副檔名是「.csv」，在有安裝 Office 的電腦上編輯的話，或許會是預設以 Excel 開啟。</span><br/>
+<br/>
+<span >但使用 Excel 編輯會使之後的匯入變成亂碼。請使用 Windows 內建的記事本，或其他記事本軟體 (推薦Notepad++) 開啟。</span><br/>
+<br/>
+<span ><a href="https://notepad-plus-plus.org/">Notepad++官網連結</a></span><br/>
+<br/>
+<span >匯入手動建立的單字檔時，也須注意存檔時的檔案編碼必須為「UTF-8」。</span><br/>
+<br/>
+<span >使用 Windows 內建記事本，存檔時可在右下方選取編碼：</span><br/>
+<br/>
+<div class="separator" style="clear: both; text-align: left;">
+<span ><a href="https://2.bp.blogspot.com/-JS9korKUOA0/W8ROA1QLvQI/AAAAAAAAHCw/CWJRxiQKA50MtV_SnnykW-0FBVgpz4X5gCLcBGAs/s1600/qa_01.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="182" data-original-width="532" src="https://2.bp.blogspot.com/-JS9korKUOA0/W8ROA1QLvQI/AAAAAAAAHCw/CWJRxiQKA50MtV_SnnykW-0FBVgpz4X5gCLcBGAs/s1600/qa_01.png" /></a></span></div>
+<div class="separator" style="clear: both; text-align: center;">
+<br/></div>
+<div class="separator" style="clear: both; text-align: center;">
+<br/></div>
+<div class="separator" style="clear: both; text-align: left;">
+<span >使用 Notepad++ 時，在文件視窗右下角會顯示目前編碼：</span></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br/></div>
+<div class="separator" style="clear: both; text-align: left;">
+<span ><a href="https://3.bp.blogspot.com/-6B8KeB-BaT0/W8ROiK5ZeGI/AAAAAAAAHC4/VI6JqZx4AxMIugppqxv67TiNVETAvhV2wCLcBGAs/s1600/qa_02.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="86" data-original-width="350" src="https://3.bp.blogspot.com/-6B8KeB-BaT0/W8ROiK5ZeGI/AAAAAAAAHC4/VI6JqZx4AxMIugppqxv67TiNVETAvhV2wCLcBGAs/s1600/qa_02.png" /></a></span></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br/></div>
+<div class="separator" style="clear: both; text-align: left;">
+<span >並且可以使用上方工具列的「編碼」按鈕修改：</span></div>
+<div class="separator" style="clear: both; text-align: left;">
+<br/></div>
+<div class="separator" style="clear: both; text-align: left;">
+<span ><a href="https://3.bp.blogspot.com/-PGl1pYTH8To/W8RO1b3dNmI/AAAAAAAAHDA/5HsqzyeAQjI7m_1zyoXyYeqGfpsMUq4TACLcBGAs/s1600/qa_03.png" style="margin-left: 1em; margin-right: 1em;"><img border="0" data-original-height="297" data-original-width="447" src="https://3.bp.blogspot.com/-PGl1pYTH8To/W8RO1b3dNmI/AAAAAAAAHDA/5HsqzyeAQjI7m_1zyoXyYeqGfpsMUq4TACLcBGAs/s1600/qa_03.png" /></a></span></div>
+<br/>
+<br/>
+</body>
+</html>
