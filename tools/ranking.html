@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced Tier List Maker</title>
+    <style>
+        :root {
+            --tier-label-width: 80px;
+            --sub-label-width: 40px;
+        }
+        body { font-family: sans-serif; background: #1a1a1a; color: white; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        
+        .tier-container { width: 95%; max-width: 1280px; border: 1px solid #444; }
+        
+        /* 每一列的佈局 */
+        .tier-row { display: flex; min-height: 150px; border-bottom: 1px solid #444; }
+        
+        /* 左側大等級標籤 (S, A, B...) */
+        .main-label { 
+            min-width: var(--tier-label-width); 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 28px; font-weight: bold; color: #000; 
+        }
+
+        /* 子區域容器 */
+        .sub-tier-container { display: flex; flex-grow: 1; }
+
+        /* A+, A, A- 每個小區塊 */
+        .sub-zone { 
+            flex: 1; display: flex; flex-wrap: wrap; align-content: flex-start;
+            padding: 10px; gap: 8px; border-left: 1px dashed #444; position: relative;
+            min-width: 150px;
+        }
+
+        /* 在區塊背景顯示微弱的 + / - 提示文字 */
+        .sub-zone::after {
+            content: attr(data-rank); position: absolute; right: 10px; bottom: 5px;
+            font-size: 24px; color: rgba(255,255,255,0.1); pointer-events: none;
+        }
+
+        /* 顏色定義 */
+        .s-color { background: #ff7f7f; }
+        .a-color { background: #ffbf7f; }
+        .b-color { background: #ffff7f; }
+
+        /* 候選區 */
+        #item-bank { 
+            width: 95%; max-width: 1100px; min-height: 120px; background: #333; 
+            margin-top: 30px; padding: 15px; display: flex; flex-wrap: wrap; gap: 10px; 
+            border: 2px dashed #666; border-radius: 8px; 
+        }
+
+        .item { width: 256px; height: 120px; cursor: grab; object-fit: cover; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <h1>Tier List Maker</h1>
+
+    <div class="controls" style="margin-bottom: 20px;">
+        <input type="file" id="file-input" accept="image/*" multiple>
+    </div>
+
+    <div class="tier-container">
+        <div class="tier-row">
+            <div class="main-label s-color">S</div>
+            <div class="sub-tier-container">
+                <div class="sub-zone" data-rank="S" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                
+            </div>
+        </div>
+        <div class="tier-row">
+            <div class="main-label a-color">A</div>
+            <div class="sub-tier-container">
+                <div class="sub-zone" data-rank="A+" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="sub-zone" data-rank="A" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                
+            </div>
+        </div>
+        <div class="tier-row">
+            <div class="main-label b-color">B</div>
+            <div class="sub-tier-container">
+                <div class="sub-zone" data-rank="B+" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="sub-zone" data-rank="B" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                
+            </div>
+        </div>
+		<div class="tier-row">
+            <div class="main-label a-color">C</div>
+            <div class="sub-tier-container">
+                <div class="sub-zone" data-rank="C+" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="sub-zone" data-rank="C" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                
+            </div>
+        </div>
+		<div class="tier-row">
+            <div class="main-label b-color">D</div>
+            <div class="sub-tier-container">
+                <div class="sub-zone" data-rank="D+" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                <div class="sub-zone" data-rank="D" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div id="item-bank" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+    <script>
+        // 檔案讀取邏輯與之前相同
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            const files = e.target.files;
+            for (let file of files) {
+                if (!file.type.startsWith('image/')) continue;
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.className = 'item';
+                img.id = 'img-' + Date.now() + Math.random();
+                img.draggable = true;
+                img.ondragstart = (ev) => ev.dataTransfer.setData("text", ev.target.id);
+                document.getElementById('item-bank').appendChild(img);
+            }
+        });
+
+        function allowDrop(ev) { ev.preventDefault(); }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            
+            let target = ev.target;
+            // 尋找最近的放置目標：可以是 .sub-zone 或 #item-bank
+            while (target && !target.classList.contains('sub-zone') && target.id !== 'item-bank') {
+                target = target.parentElement;
+            }
+            
+            if (target) target.appendChild(draggedElement);
+        }
+    </script>
+</body>
+</html>

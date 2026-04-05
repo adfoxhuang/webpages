@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>紀錄系統 - 自動週數標題版</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-body: #eef2f7;
+            --bg-panel: #ffffff;
+            --bg-table: #ffffff;
+            --text-main: #333333;
+            --text-sub: #555555;
+            --primary-color: #4a90e2;
+            --note-color: #fffdf2;
+            --note-text: #856404;
+            --border-color: #dddddd;
+            --input-bg: #ffffff;
+            --row-odd: #ffffff;
+			--row-even: #f9fbff;
+            --row-hover: #f1f4f9;
+        }
+
+        body.dark-theme {
+            --bg-body: #1a1a1a;
+            --bg-panel: #2d2d2d;
+            --bg-table: #252525;
+            --text-main: #e0e0e0;
+            --text-sub: #b0b0b0;
+            --primary-color: #377acc;
+            --note-color: #3d3a2a;
+            --note-text: #ffd966;
+            --border-color: #444444;
+            --input-bg: #333333;
+            --row-odd: #252525;
+			--row-even: #2a2a2a;
+            --row-hover: #353535;
+        }
+
+        body { 
+            font-family: "Microsoft JhengHei", sans-serif; 
+            background-color: var(--bg-body); 
+            color: var(--text-main);
+            display: flex; flex-direction: column; align-items: center; 
+            padding: 40px; font-size: 28px; transition: 0.3s;
+        }
+
+        .control-panel {
+            background: var(--bg-panel); padding: 30px; border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 25px;
+            width: 900px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box;
+        }
+        .control-row { display: flex; gap: 20px; align-items: flex-end; width: 100%; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+        .section-title { font-weight: bold; border-left: 4px solid var(--primary-color); padding-left: 10px; }
+        
+        input, select, textarea { 
+            padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; 
+            outline: none; font-size: 18px; background: var(--input-bg); color: var(--text-main);
+        }
+
+        button { padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 18px; color: white; transition: 0.2s; white-space: nowrap; }
+        .btn-add { background: var(--primary-color); }
+        .btn-note { background: #f39c12; }
+        .btn-title { background: #673ab7; }
+        .btn-export { background: #27ae60; }
+        .btn-theme { background: #555555; }
+        button:hover { opacity: 0.8; transform: translateY(-2px); }
+
+        /* 表格容器與寬度控制 */
+        .table-container { 
+            width: 900px; background: var(--bg-table); border-radius: 16px; 
+            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            border: 1px solid var(--border-color);
+        }
+
+        table { width: 100%; border-spacing: 0; table-layout: fixed; border-collapse: separate; }
+        
+        .main-header { 
+            background-color: var(--primary-color); color: white; 
+            padding: 15px; font-size: 28px; text-align: center; letter-spacing: 2px;
+        }
+
+        .sub-header th { 
+            background-color: var(--bg-panel); color: var(--text-sub); 
+            padding: 15px; font-size: 18px; border-bottom: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+        }
+        .sub-header th:last-child { border-right: none; }
+
+        td { 
+			padding: 10px; 
+			/* 統一設定底線與右線 */
+			border-bottom: 1px solid var(--border-color); 
+			border-right: 1px solid var(--border-color);
+			word-wrap: break-word; 
+			vertical-align: middle; 
+			white-space: pre-line; 
+			line-height: 1.6; 
+		}
+        td:last-child { border-right: none; }
+        tr:last-child td { border-bottom: none; }
+
+        td:nth-child(1) { text-align: center; font-weight: bold; }
+        td:nth-child(2) { text-align: left; padding-left: 30px; font-weight: bold; }
+		td:nth-child(1), td:nth-child(2) {
+			border-right: 1px solid var(--border-color) !important;
+		}
+        
+		#mainNoteCell { 
+			text-align: center; 
+			background-color: var(--note-color); 
+			font-weight: bold; 
+			color: var(--note-text);
+			border-left: 0px solid var(--border-color); 
+			border-bottom: none;
+		}
+
+		tr:nth-child(odd) td:not(#mainNoteCell) { background-color: var(--row-odd); }
+        tr:nth-child(even) td:not(#mainNoteCell) { background-color: var(--row-even); }
+    </style>
+</head>
+<body>
+
+    <div class="control-panel">
+        <div class="control-row">
+            <div class="input-group">
+                <div class="section-title">表格標題編輯</div>
+                <div class="row-inputs">
+                    <input type="text" id="titleInput" placeholder="輸入自訂標題...">
+                    <button class="btn-title" onclick="updateTitle()">更新標題</button>
+                </div>
+            </div>
+            <button class="btn-theme" onclick="toggleTheme()">🌓 亮/暗模式</button>
+            <button class="btn-export" onclick="exportToImage()">透明背景導出</button>
+        </div>
+
+        <hr style="width: 100%; border: 0; border-top: 1px solid var(--border-color); margin: 5px 0;">
+
+        <div class="control-row">
+            <div class="input-group" style="flex: 2;">
+                <div class="section-title">新增紀錄</div>
+                <div class="row-inputs">
+                    <input type="date" id="dateInput">
+                    <select id="timeSelect">
+                        <option value="☀️">☀️</option>
+                        <option value="🌙" selected>🌙</option>
+                    </select>
+                    <input type="text" id="contentInput" placeholder="紀錄內容..." style="flex: 1;">
+                    <button class="btn-add" onclick="addRow()">新增資料</button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <div class="section-title">整體備註</div>
+                <div class="row-inputs">
+                    <textarea id="noteInput" placeholder="輸入備註..."></textarea>
+                    <button class="btn-note" onclick="updateNote()">更新備註</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="captureArea" class="table-container">
+        <table id="dataTable">
+            <colgroup>
+                <col style="width: 280px;">
+                <col style="width: 320px;">
+                <col style="width: 300px;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th colspan="3" id="tableMainTitle" class="main-header">標題載入中...</th>
+                </tr>
+                <tr class="sub-header" style="display:none">
+                    <th>日期與時段</th>
+                    <th>詳細內容</th>
+                    <th>整體備註</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <script>
+        let rowCount = 0;
+
+        // 初始化：設定目前週數標題
+        window.onload = function() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const week = getWeekNumber(now);
+            const defaultTitle = `[${year} Week ${week}]`;
+            document.getElementById('tableMainTitle').textContent = defaultTitle;
+            
+            // 預設將日期輸入框設為今天
+            document.getElementById('dateInput').valueAsDate = now;
+        };
+
+        // 計算 ISO 週數的函數
+        function getWeekNumber(d) {
+            d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+            var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+            var weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+            return weekNo+1;
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+        }
+
+        function updateTitle() {
+            const val = document.getElementById('titleInput').value.trim();
+            if (val) {
+                document.getElementById('tableMainTitle').textContent = val;
+                document.getElementById('titleInput').value = "";
+            }
+        }
+
+        function addRow() {
+            const dateVal = document.getElementById('dateInput').value;
+            const emoji = document.getElementById('timeSelect').value;
+            const contentVal = document.getElementById('contentInput').value.trim();
+            if (!dateVal || !contentVal) return;
+
+            const dateObj = new Date(dateVal);
+            const fullDateString = `${String(dateObj.getMonth() + 1).padStart(2, '0')}/${String(dateObj.getDate()).padStart(2, '0')} (星期${["日", "一", "二", "三", "四", "五", "六"][dateObj.getDay()]})${emoji}`;
+
+            const tbody = document.querySelector("#dataTable tbody");
+            const newRow = tbody.insertRow(); 
+            rowCount++;
+
+            newRow.insertCell(0).textContent = fullDateString;
+            newRow.insertCell(1).textContent = contentVal;
+
+            if (rowCount === 1) {
+                const cell3 = newRow.insertCell(2);
+                cell3.id = "mainNoteCell";
+                cell3.rowSpan = 1;
+                cell3.textContent = "尚未輸入備註";
+            } else {
+                document.getElementById("mainNoteCell").rowSpan = rowCount;
+            }
+            document.getElementById('contentInput').value = "";
+        }
+
+        function updateNote() {
+            const noteVal = document.getElementById('noteInput').value.trim();
+            const cell = document.getElementById("mainNoteCell");
+            if (cell) cell.textContent = noteVal || "尚未輸入備註";
+        }
+
+        function exportToImage() {
+            const element = document.getElementById('captureArea');
+            const originalBg = element.style.background;
+            const originalShadow = element.style.boxShadow;
+            element.style.background = "transparent";
+            element.style.boxShadow = "none";
+
+            html2canvas(element, { 
+                scale: 3, 
+                backgroundColor: null, 
+                useCORS: true 
+            }).then(canvas => {
+                element.style.background = originalBg;
+                element.style.boxShadow = originalShadow;
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL("image/png");
+                link.download = `紀錄報表_${new Date().getTime()}.png`;
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>
